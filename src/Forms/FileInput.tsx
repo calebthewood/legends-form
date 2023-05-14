@@ -1,11 +1,11 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 
 
-
 interface IFileInputProps {
   type: 'audio' | 'video';
-  updateMain: (p: File | null) => void;
+  updateMain: (p: string | null) => void;
 }
+
 
 export function FileInput({ type, updateMain }: IFileInputProps) {
 
@@ -25,16 +25,20 @@ export function FileInput({ type, updateMain }: IFileInputProps) {
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    if (!file) setError(true);
-    if (!event)
-      updateMain(file);
+    console.log(file);
+    if (!file) {
+      setError(true);
+      return;
+    }
+    updateMain(file.name);
   }
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     setError(false);
+    console.log(event.target.files);
     const newFile = event.target.files?.[0];
     if (!newFile) return;
-    setFile(newFile);
+    setFile(file);
   }
 
   return (

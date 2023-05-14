@@ -22,3 +22,40 @@ div {
 .content {
   min-height: 400px;
 }
+
+
+/* ##################### Animated Transitions Start  */
+
+
+@keyframes grow {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animated-entry {
+  animation: grow 0.2s linear forwards;
+}
+
+@keyframes shrink {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+.animated-exit {
+  animation: shrink 0.2s linear forwards;
+}
+
+
+/* ##################### Animated Transitions End  */
