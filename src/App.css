@@ -9,7 +9,7 @@ div {
   margin: 2em;
 }
 
-form {
+.form-item {
   display: flex;
   flex-direction: column;
   text-align: start;
@@ -17,4 +17,8 @@ form {
 
 .input-error {
   border: 2px solid red;
+}
+
+.content {
+  min-height: 400px;
 }
