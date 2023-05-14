@@ -44,7 +44,7 @@ export function TextAreaInput({ field, updateMain, config=defaultConfig }: IText
   }
 
   return (
-    <form action="" onSubmit={handleSubmit}>
+    <div className="form-item" >
       <label htmlFor="text-area">{field}</label>
       <textarea
         name="text-area"
@@ -55,7 +55,7 @@ export function TextAreaInput({ field, updateMain, config=defaultConfig }: IText
         value={text}
         placeholder={error ? 'Answer Needed' : 'Write Answer Here...'}>
       </textarea>
-      <button>Next</button>
-    </form>
+      <button onClick={handleSubmit}>Submit</button>
+    </div>
   );
 }

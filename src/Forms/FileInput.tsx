@@ -38,7 +38,7 @@ export function FileInput({ type, updateMain }: IFileInputProps) {
   }
 
   return (
-    <form action="" onSubmit={handleSubmit} encType="multipart/form-data">
+    <form action="" className="form-item" onSubmit={handleSubmit} encType="multipart/form-data">
       <label htmlFor="file-input">{fileTypes[type].label}</label>
       <input
         type="file"
@@ -46,7 +46,7 @@ export function FileInput({ type, updateMain }: IFileInputProps) {
         className={error ? 'input-error' : ''}
         accept={fileTypes[type].accepts}
         onChange={handleChange} />
-      <button>Next</button>
+      <button>Submit</button>
     </form>
   );
 }

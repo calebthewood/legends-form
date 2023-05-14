@@ -1,4 +1,5 @@
 import { useState } from "react";
+import './forms.css';
 
 interface ITextInputProps {
   field: string;
@@ -7,6 +8,7 @@ interface ITextInputProps {
 
 export function TextInput({ field, updateMain }: ITextInputProps) {
 
+  const [isVisible, setIsVisible] = useState(true);
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
 
@@ -18,10 +20,10 @@ export function TextInput({ field, updateMain }: ITextInputProps) {
     return value.length > 0;
   }
 
-  function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
+  function handleSubmit() {
     if (validateInput(text)) {
       updateMain(text);
+      setIsVisible(false);
     } else {
       setError(true);
     }
@@ -33,7 +35,7 @@ export function TextInput({ field, updateMain }: ITextInputProps) {
   }
 
   return (
-    <form action="" onSubmit={handleSubmit}>
+    <div className="form-item">
       <label htmlFor="text-input">{field}</label>
       <input
         type="text"
@@ -43,7 +45,7 @@ export function TextInput({ field, updateMain }: ITextInputProps) {
         className={error ? 'input-error' : ''}
         value={text}
         placeholder={error ? 'Answer Needed' : 'Write Answer Here...'} />
-      <button>Next</button>
-    </form>
+      <button onClick={handleSubmit}>Submit</button>
+    </div>
   );
 }

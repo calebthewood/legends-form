@@ -66,7 +66,7 @@ export function MultipleChoiceInput({ field, updateMain }: IMultipleChoice) {
   }
 
   return (
-    <form action="" onSubmit={handleSubmit}>
+    <div className="form-item">
       <label htmlFor="text-input">{field}</label>
       <fieldset className={error ? 'input-error' : ''}>
         <legend>Select an Answer:</legend>
@@ -86,7 +86,7 @@ export function MultipleChoiceInput({ field, updateMain }: IMultipleChoice) {
         )}
 
       </fieldset>
-      <button onClick={handleSubmit}>Next</button>
-    </form>
+      <button onClick={handleSubmit}>Submit</button>
+    </div>
   );
 }
