@@ -6,8 +6,8 @@
 }
 
 .form-container {
-  min-height: 400px;
-  min-width: 270px;
+  min-height: 460px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -30,12 +30,17 @@
   flex-grow: 0.4;
 }
 
+.nav-start {
+justify-content: flex-end;
+}
+
 .welcome-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #484848
+  color: #484848;
+  margin-top: 30%;
 }
 
 .form-item {

@@ -22,10 +22,12 @@ export function FileInput({ type, updateMain }: IFileInputProps) {
 
   const fileTypes = {
     audio: {
+      prompt: 'Please upload an audio recording describing xyz.',
       accepts: 'audio/*',
       label: 'Upload Audio Clip'
     },
     video: {
+      prompt: 'Please upload an video recording describing xyz.',
       accepts: 'video/*',
       label: 'Upload Video Clip'
     }
@@ -49,8 +51,9 @@ export function FileInput({ type, updateMain }: IFileInputProps) {
   }
 
   return (
-    <div className="form-item file-input">
+    <div className="form-item">
       <label htmlFor="file-input">{fileTypes[type].label}</label>
+      <p>{fileTypes[type].prompt}</p>
       <input
         type="file"
         name="file-input"

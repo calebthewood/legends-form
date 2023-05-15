@@ -56,6 +56,10 @@ h2 {
   line-height: 1.1;
 }
 
+ol {
+  margin-top: 0;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -79,6 +83,12 @@ button:focus-visible {
 
 input {
   color-scheme: light;
+}
+
+textarea {
+  color-scheme: light;
+  padding: 7px;
+  margin-bottom: 1em;
 }
 
 @media (prefers-color-scheme: light) {

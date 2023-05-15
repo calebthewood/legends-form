@@ -49,6 +49,7 @@ export function TextAreaInput({ field, updateMain, config=defaultConfig }: IText
   return (
     <div className='form-item' >
       <label htmlFor='text-area'>{field}</label>
+      <p>Prompt, please describe something about the activity?</p>
       <textarea
         name='text-area'
         onChange={handleChange}

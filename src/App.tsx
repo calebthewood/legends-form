@@ -9,7 +9,7 @@ import './App.css';
 
 const STEP_MAX = 6;
 const STEP_MIN = 0;
-const ANIMATION_DURATION_MS = 200 // based on 'grow' and 'shrink' animations in App.css
+const ANIMATION_DURATION_MS = 200; // based on 'grow' and 'shrink' animations in App.css
 
 function App() {
   /* Form Field State */
@@ -96,9 +96,9 @@ function App() {
           {renderFormField(step)}
         </div>
       </div>
-      <div className='nav-btns'>
-        <button onClick={prevStep} disabled={step <= 0}>Back</button>
-        <button onClick={nextStep} disabled={!isSubmitted} >Next</button>
+      <div className={step === STEP_MIN ? 'nav-start nav-btns' : 'nav-btns'}>
+        {step > STEP_MIN && <button onClick={prevStep} disabled={step <= 0}>Back</button>}
+        {step < STEP_MAX && <button onClick={nextStep} disabled={!isSubmitted} >Next</button>}
       </div>
     </div>
   </>

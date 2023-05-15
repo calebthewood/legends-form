@@ -38,6 +38,7 @@ export function TextInput({ field, updateMain }: ITextInputProps) {
   return (
     <div className='form-item'>
       <label htmlFor='text-input'>{field}</label>
+      <p>Prompt, question about activity?</p>
       <input
         type='text'
         name='text-input'
