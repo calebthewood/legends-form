@@ -27,6 +27,7 @@ a:hover {
 
 /* background gradient comes from https://www.joshwcomeau.com/gradient-generator/ */
 body {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   margin: 0;
   display: flex;
   place-items: center;
