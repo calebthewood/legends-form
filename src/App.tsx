@@ -9,15 +9,16 @@ import './App.css';
 
 const STEP_MAX = 6;
 const STEP_MIN = 0;
+const ANIMATION_DURATION_MS = 200 // based on 'grow' and 'shrink' animations in App.css
 
 function App() {
-
+  /* Form Field State */
   const [textFields, setTextFields] = useState<string[] | null>(null);
   const [fileFields, setFileFields] = useState<string[] | null>(null);
   const [multiChoiceFields, setMultiChoiceFields] = useState<string[] | null>(null);
+  /* Carousel Related State */
   const [transition, setTransition] = useState('animated-entry');
   const [isSubmitted, setIsSubmitted] = useState(true);
-
   const [step, setStep] = useState(0);
 
   function renderFormField(step: number) {
@@ -39,6 +40,7 @@ function App() {
     }
   }
 
+  /** Passed to text-based input components to update textFields and isSubmitted */
   function updateTextFields(newValue: string | null) {
     if (!newValue) return;
     const newData = textFields ? [...textFields, newValue] : [newValue];
@@ -46,6 +48,7 @@ function App() {
     setIsSubmitted(true);
   }
 
+  /** Passed to file-based input components to update fileFields and isSubmitted */
   function updateFileFields(newValue: string | null) {
     if (!newValue) return;
     const newData = fileFields ? [...fileFields, newValue] : [newValue];
@@ -53,6 +56,7 @@ function App() {
     setIsSubmitted(true);
   }
 
+  /** Passed to radio field components to update multiChoiceFields and isSubmitted */
   function updateMultiChoiceFields(newValue: string | null) {
     if (!newValue) return;
     const newData = multiChoiceFields ? [...multiChoiceFields, newValue] : [newValue];
@@ -60,21 +64,27 @@ function App() {
     setIsSubmitted(true);
   }
 
+  /** NextStep
+   * Triggers transition animation and advances to the next component
+   */
   async function nextStep() {
     setTransition('animated-exit');
     setTimeout(() => {
       setStep(step < STEP_MAX ? step + 1 : step);
       setTransition('animated-entry');
-    }, 200);
+    }, ANIMATION_DURATION_MS);
     setIsSubmitted(false);
   }
 
+  /** PrevStep
+   * Triggers transition animation and moves to the previous component
+   */
   async function prevStep() {
     setTransition('animated-exit');
     setTimeout(() => {
       setStep(step > STEP_MIN ? step - 1 : step);
       setTransition('animated-entry');
-    }, 200);
+    }, ANIMATION_DURATION_MS);
     setIsSubmitted(true);
   }
 
