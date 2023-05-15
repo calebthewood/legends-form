@@ -11,7 +11,7 @@ interface IRadioItem {
   value: string;
 }
 
-const defaultList: IRadioItem[] = [
+const options: IRadioItem[] = [
   {
     name: 'multiple-choice',
     label: 'Option 1',
@@ -37,7 +37,6 @@ const defaultList: IRadioItem[] = [
 export function MultipleChoiceInput({ field, updateMain }: IMultipleChoice) {
 
   const [selected, setSelected] = useState<string | null>(null);
-  const [options, setOption] = useState(defaultList);
   const [error, setError] = useState(false);
 
   /** Validate Input
