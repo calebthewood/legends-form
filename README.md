@@ -15,8 +15,7 @@
 ## Prompt
 
 ### Task:
-For the technical interview, I’d like you to create something that helps me see how you approach problems, what tools you use, your code style, your design sense, etc. You can do this live during our meeting or in advance and we can spend the meeting talking it through (or some hybrid)... your call. If you want to reschedule your currently booked time, feel free to do so: https://calendly.com/samlegends/technical-interview.
-
+For the technical interview, I’d like you to create something that helps me see how you approach problems, what tools you use, your code style, your design sense, etc.
 ### Background:
 We’re currently running a 15-day test program for kids and parents where the parent receives a daily link via SMS. The link takes them to their personalized daily activity. Each activity contains an embedded video and text that explains the activity. Then a form where the parent and kid can provide their answers. Common forms of input include: short text, long text, recorded audio, recorded video and multiple choice questions.
 
