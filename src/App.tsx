@@ -4,6 +4,7 @@ import { TextAreaInput } from './Forms/TextAreaInput';
 import { FileInput } from './Forms/FileInput';
 import { StateList } from './Common/StateList';
 import { MultipleChoiceInput } from './Forms/MultipleChoice';
+import { Welcome } from './Common/Welcome';
 import './App.css';
 
 const STEP_MAX = 6;
@@ -34,7 +35,7 @@ function App() {
       case 6:
         return <StateList textFields={textFields} fileFields={fileFields} multiChoiceFields={multiChoiceFields} />;
       default:
-        return <div><h3>Welcome</h3><h6>Let's get started!</h6></div>;
+        return <Welcome />;
     }
   }
 
@@ -71,27 +72,26 @@ function App() {
   async function prevStep() {
     setTransition('animated-exit');
     setTimeout(() => {
-      setStep(step >= STEP_MIN ? step - 1 : step);
+      setStep(step > STEP_MIN ? step - 1 : step);
       setTransition('animated-entry');
     }, 200);
+    setIsSubmitted(true);
   }
 
-  return (
-    <>
-      <h1>Gettin Started</h1>
-      <hr />
+  return (<>
+    <h1>Legends</h1>
+    <div className='form-container'>
       <div className='content'>
         <div className={transition}>
           {renderFormField(step)}
         </div>
       </div>
-      <div>
-        <button onClick={prevStep}>Back</button>
+      <div className='nav-btns'>
+        <button onClick={prevStep} disabled={step <= 0}>Back</button>
         <button onClick={nextStep} disabled={!isSubmitted} >Next</button>
       </div>
-      <hr />
-
-    </>
+    </div>
+  </>
   );
 }
 

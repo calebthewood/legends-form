@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import './forms.css';
 
 interface ITextInputProps {
@@ -8,9 +8,9 @@ interface ITextInputProps {
 
 export function TextInput({ field, updateMain }: ITextInputProps) {
 
-  const [isVisible, setIsVisible] = useState(true);
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   /** Validate Input
    * A token validation function. More could be added here based on requirements.
@@ -23,8 +23,9 @@ export function TextInput({ field, updateMain }: ITextInputProps) {
   function handleSubmit() {
     if (validateInput(text)) {
       updateMain(text);
-      setIsVisible(false);
+      setSuccess(true);
     } else {
+      setSuccess(false);
       setError(true);
     }
   }
@@ -35,17 +36,19 @@ export function TextInput({ field, updateMain }: ITextInputProps) {
   }
 
   return (
-    <div className="form-item">
-      <label htmlFor="text-input">{field}</label>
+    <div className='form-item'>
+      <label htmlFor='text-input'>{field}</label>
       <input
-        type="text"
-        name="text-input"
-        id=""
+        type='text'
+        name='text-input'
         onChange={handleChange}
-        className={error ? 'input-error' : ''}
+        className={error ? 'input-error' : success ? 'input-success' : ''}
         value={text}
         placeholder={error ? 'Answer Needed' : 'Write Answer Here...'} />
-      <button onClick={handleSubmit}>Submit</button>
+      <button
+        className='submit-btn'
+        onClick={handleSubmit}
+        disabled={success}>{success ? 'Submitted' : 'Submit'}</button>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 interface ITextAreaInputProps {
   field: string;
@@ -20,6 +20,7 @@ export function TextAreaInput({ field, updateMain, config=defaultConfig }: IText
 
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   /** Validate Input
    * A token validation function. More could be added here based on requirements.
@@ -33,7 +34,9 @@ export function TextAreaInput({ field, updateMain, config=defaultConfig }: IText
     event.preventDefault();
     if (validateInput(text)) {
       updateMain(text);
+      setSuccess(true);
     } else {
+      setSuccess(false);
       setError(true);
     }
   }
@@ -44,18 +47,21 @@ export function TextAreaInput({ field, updateMain, config=defaultConfig }: IText
   }
 
   return (
-    <div className="form-item" >
-      <label htmlFor="text-area">{field}</label>
+    <div className='form-item' >
+      <label htmlFor='text-area'>{field}</label>
       <textarea
-        name="text-area"
+        name='text-area'
         onChange={handleChange}
         rows={config.rows}
         cols={config.cols}
-        className={error ? 'input-error' : ''}
+        className={error ? 'input-error' : success ? 'input-success' : ''}
         value={text}
         placeholder={error ? 'Answer Needed' : 'Write Answer Here...'}>
       </textarea>
-      <button onClick={handleSubmit}>Submit</button>
+      <button
+        className='submit-btn'
+        onClick={handleSubmit}
+        disabled={success}>{success ? 'Submitted' : 'Submit'}</button>
     </div>
   );
 }

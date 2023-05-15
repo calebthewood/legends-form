@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 
 
 interface IFileInputProps {
@@ -8,9 +8,16 @@ interface IFileInputProps {
 
 
 export function FileInput({ type, updateMain }: IFileInputProps) {
-
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  /** Resets form when 'type' changes. Needed b/c browser cacheing*/
+  useEffect(() => {
+    setFile(null);
+    setError(false);
+    setSuccess(false);
+  }, [type]);
 
   const fileTypes = {
     audio: {
@@ -23,34 +30,37 @@ export function FileInput({ type, updateMain }: IFileInputProps) {
     }
   };
 
-  function handleSubmit(event: FormEvent) {
-    event.preventDefault();
-    console.log(file);
+  function handleSubmit() {
     if (!file) {
+      setSuccess(false);
       setError(true);
-      return;
+    } else {
+      updateMain(file.name);
+      setSuccess(true);
     }
-    updateMain(file.name);
   }
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     setError(false);
     console.log(event.target.files);
-    const newFile = event.target.files?.[0];
-    if (!newFile) return;
-    setFile(file);
+    const newFile = event.target.files?.[0] || null;
+    setFile(newFile);
   }
 
   return (
-    <form action="" className="form-item" onSubmit={handleSubmit} encType="multipart/form-data">
+    <div className="form-item file-input">
       <label htmlFor="file-input">{fileTypes[type].label}</label>
       <input
         type="file"
         name="file-input"
-        className={error ? 'input-error' : ''}
+        // value={''}
+        className={error ? 'input-error' : success ? 'input-success' : ''}
         accept={fileTypes[type].accepts}
         onChange={handleChange} />
-      <button>Submit</button>
-    </form>
+      <button
+        onClick={handleSubmit}
+        className='submit-btn'
+        disabled={success}>{success ? 'Submitted' : 'Submit'}</button>
+    </div>
   );
 }

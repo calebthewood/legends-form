@@ -86,7 +86,7 @@ export function MultipleChoiceInput({ field, updateMain }: IMultipleChoice) {
         )}
 
       </fieldset>
-      <button onClick={handleSubmit}>Submit</button>
+      <button className='submit-btn' onClick={handleSubmit}>Submit</button>
     </div>
   );
 }
