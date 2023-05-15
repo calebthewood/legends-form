@@ -1,4 +1,5 @@
 import { useState, ChangeEvent } from "react";
+import { SubmitBtn } from "./SubmitBtn";
 
 interface IMultipleChoice {
   field: string;
@@ -38,6 +39,7 @@ export function MultipleChoiceInput({ field, updateMain }: IMultipleChoice) {
 
   const [selected, setSelected] = useState<string | null>(null);
   const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   /** Validate Input
    * A token validation function. More could be added here based on requirements.
@@ -46,14 +48,12 @@ export function MultipleChoiceInput({ field, updateMain }: IMultipleChoice) {
     return value.length > 0;
   }
 
-  function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
+  function handleSubmit() {
     if (!selected) {
       setError(true);
-      return;
-    }
-    if (validateInput(selected)) {
+    } else if (validateInput(selected)) {
       updateMain(selected);
+      setSuccess(true)
     } else {
       setError(true);
     }
@@ -85,7 +85,7 @@ export function MultipleChoiceInput({ field, updateMain }: IMultipleChoice) {
         )}
 
       </fieldset>
-      <button className='submit-btn' onClick={handleSubmit}>Submit</button>
+      <SubmitBtn handleSubmit={handleSubmit} success={success} />
     </div>
   );
 }

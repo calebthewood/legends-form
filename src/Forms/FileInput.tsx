@@ -1,4 +1,5 @@
 import { useState, ChangeEvent, useEffect } from "react";
+import { SubmitBtn } from "./SubmitBtn";
 
 
 interface IFileInputProps {
@@ -57,10 +58,7 @@ export function FileInput({ type, updateMain }: IFileInputProps) {
         className={error ? 'input-error' : success ? 'input-success' : ''}
         accept={fileTypes[type].accepts}
         onChange={handleChange} />
-      <button
-        onClick={handleSubmit}
-        className='submit-btn'
-        disabled={success}>{success ? 'Submitted' : 'Submit'}</button>
+      <SubmitBtn handleSubmit={handleSubmit} success={success} />
     </div>
   );
 }

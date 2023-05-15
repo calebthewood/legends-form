@@ -11,6 +11,7 @@
 - add comments & docstrings
 - improve the input & err handling styling
 - tidy up App.css
+- better font?
 
 ## Prompt
 

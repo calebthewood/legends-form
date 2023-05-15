@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { SubmitBtn } from './SubmitBtn';
 
 interface ITextInputProps {
   field: string;
@@ -44,10 +45,7 @@ export function TextInput({ field, updateMain }: ITextInputProps) {
         className={error ? 'input-error' : success ? 'input-success' : ''}
         value={text}
         placeholder={error ? 'Answer Needed' : 'Write Answer Here...'} />
-      <button
-        className='submit-btn'
-        onClick={handleSubmit}
-        disabled={success}>{success ? 'Submitted' : 'Submit'}</button>
+      <SubmitBtn handleSubmit={handleSubmit} success={success} />
     </div>
   );
 }

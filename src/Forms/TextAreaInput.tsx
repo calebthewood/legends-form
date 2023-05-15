@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { SubmitBtn } from "./SubmitBtn";
 
 interface ITextAreaInputProps {
   field: string;
@@ -30,8 +31,7 @@ export function TextAreaInput({ field, updateMain, config=defaultConfig }: IText
     return value.length > 0;
   }
 
-  function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
+  function handleSubmit() {
     if (validateInput(text)) {
       updateMain(text);
       setSuccess(true);
@@ -58,10 +58,7 @@ export function TextAreaInput({ field, updateMain, config=defaultConfig }: IText
         value={text}
         placeholder={error ? 'Answer Needed' : 'Write Answer Here...'}>
       </textarea>
-      <button
-        className='submit-btn'
-        onClick={handleSubmit}
-        disabled={success}>{success ? 'Submitted' : 'Submit'}</button>
+      <SubmitBtn handleSubmit={handleSubmit} success={success} />
     </div>
   );
 }

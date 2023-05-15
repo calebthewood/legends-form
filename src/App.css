@@ -24,7 +24,7 @@
   justify-content: space-around;
 }
 
-.nav-btns > button {
+.nav-btns>button {
   width: 100px;
 }
 
@@ -91,12 +91,17 @@ input::file-selector-button {
 }
 
 .submit-btn {
+  justify-self: flex-end;
   margin-top: 2em;
   width: 100%;
 }
 
 .state-list {
   text-align: start;
+}
+
+.confetti {
+  align-self: center;
 }
 
 /* ##################### Animated Transitions Start  */
