@@ -85,12 +85,6 @@ input {
   color-scheme: light;
 }
 
-textarea {
-  color-scheme: light;
-  padding: 7px;
-  margin-bottom: 1em;
-}
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
