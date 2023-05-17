@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { SubmitBtn } from "./SubmitBtn";
+import { updateActivity } from "../db";
 
 interface ITextAreaInputProps {
-  field: string;
+  field: {
+    question: string;
+    response: null;
+    solution: string;
+    type: string;
+  };
   config?: ITextAreaConfig;
   updateMain: (p: string) => void;
 }
@@ -17,7 +23,7 @@ const defaultConfig = {
   cols: 33,
 };
 
-export function TextAreaInput({ field, updateMain, config=defaultConfig }: ITextAreaInputProps) {
+export function TextAreaInput({ field, updateMain, config = defaultConfig }: ITextAreaInputProps) {
 
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
@@ -35,6 +41,7 @@ export function TextAreaInput({ field, updateMain, config=defaultConfig }: IText
     if (validateInput(text)) {
       updateMain(text);
       setSuccess(true);
+      updateActivity({ column: 'question_2', key: 'response', value: text })
     } else {
       setSuccess(false);
       setError(true);
@@ -48,8 +55,8 @@ export function TextAreaInput({ field, updateMain, config=defaultConfig }: IText
 
   return (
     <div className='form-item' >
-      <label htmlFor='text-area'>{field}</label>
-      <p>Prompt, please describe something about the activity?</p>
+      <label htmlFor='text-area'>{field.type}</label>
+      <p>{field.question}</p>
       <textarea
         name='text-area'
         onChange={handleChange}

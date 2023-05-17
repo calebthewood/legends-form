@@ -1,14 +1,18 @@
 import { useState, ChangeEvent, useEffect } from "react";
 import { SubmitBtn } from "./SubmitBtn";
+import { updateActivity } from "../db";
 
 
 interface IFileInputProps {
-  type: 'audio' | 'video';
+  field: {
+    file_name: string | null;
+    type: 'audio' | 'video';
+    question: string;
+  };
   updateMain: (p: string | null) => void;
 }
 
-
-export function FileInput({ type, updateMain }: IFileInputProps) {
+export function FileInput({ field, updateMain }: IFileInputProps) {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -18,7 +22,7 @@ export function FileInput({ type, updateMain }: IFileInputProps) {
     setFile(null);
     setError(false);
     setSuccess(false);
-  }, [type]);
+  }, [field.type]);
 
   const fileTypes = {
     audio: {
@@ -39,6 +43,11 @@ export function FileInput({ type, updateMain }: IFileInputProps) {
       setError(true);
     } else {
       updateMain(file.name);
+      updateActivity({
+        column: field.type === 'audio' ? 'question_4' : 'question_5',
+        key: 'response',
+        value: file.name
+      });
       setSuccess(true);
     }
   }
@@ -52,14 +61,14 @@ export function FileInput({ type, updateMain }: IFileInputProps) {
 
   return (
     <div className="form-item">
-      <label htmlFor="file-input">{fileTypes[type].label}</label>
-      <p>{fileTypes[type].prompt}</p>
+      <label htmlFor="file-input">{fileTypes[field.type].label}</label>
+      <p>{field.question}</p>
       <input
         type="file"
         name="file-input"
         // value={''}
         className={error ? 'input-error' : success ? 'input-success' : ''}
-        accept={fileTypes[type].accepts}
+        accept={fileTypes[field.type].accepts}
         onChange={handleChange} />
       <SubmitBtn handleSubmit={handleSubmit} success={success} />
     </div>

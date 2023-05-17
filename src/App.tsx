@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSupabase } from './db';
 import { TextInput } from './Forms/TextInput';
 import { TextAreaInput } from './Forms/TextAreaInput';
 import { FileInput } from './Forms/FileInput';
@@ -11,28 +12,34 @@ const STEP_MAX = 6;
 const STEP_MIN = 0;
 const ANIMATION_DURATION_MS = 200; // based on 'grow' and 'shrink' animations in App.css
 
+
 function App() {
+
   /* Form Field State */
   const [textFields, setTextFields] = useState<string[] | null>(null);
   const [fileFields, setFileFields] = useState<string[] | null>(null);
   const [multiChoiceFields, setMultiChoiceFields] = useState<string[] | null>(null);
+  const activity = useSupabase({ tableName: 'activities', select: '*' });
+
   /* Carousel Related State */
   const [transition, setTransition] = useState('animated-entry');
   const [isSubmitted, setIsSubmitted] = useState(true);
   const [step, setStep] = useState(0);
 
+
+
   function renderFormField(step: number) {
     switch (step) {
       case 1:
-        return <TextInput field="Text Input #1" updateMain={updateTextFields} />;
+        return <TextInput field={activity.question_1} updateMain={updateTextFields} />;
       case 2:
-        return <TextAreaInput field="Text Area #2" updateMain={updateTextFields} />;
+        return <TextAreaInput field={activity.question_2} updateMain={updateTextFields} />;
       case 3:
-        return <FileInput type={'audio'} updateMain={updateFileFields} />;
+        return <MultipleChoiceInput field={activity.question_3} updateMain={updateMultiChoiceFields} />;
       case 4:
-        return <FileInput type={'video'} updateMain={updateFileFields} />;
+        return <FileInput field={activity.question_4} updateMain={updateFileFields} />;
       case 5:
-        return <MultipleChoiceInput field={'Multiple Choice'} updateMain={updateMultiChoiceFields} />;
+        return <FileInput field={activity.question_5} updateMain={updateFileFields} />;
       case 6:
         return <StateList textFields={textFields} fileFields={fileFields} multiChoiceFields={multiChoiceFields} />;
       default:
@@ -88,20 +95,21 @@ function App() {
     setIsSubmitted(true);
   }
 
-  return (<>
-    <h1>Legends</h1>
-    <div className='form-container'>
-      <div className='content'>
-        <div className={transition}>
-          {renderFormField(step)}
+  return (
+    <>
+      <h1>Legends</h1>
+      <div className='form-container'>
+        <div className='content'>
+          <div className={transition}>
+            {activity ? renderFormField(step) : <h1>Loading...</h1>}
+          </div>
+        </div>
+        <div className={step === STEP_MIN ? 'nav-start nav-btns' : 'nav-btns'}>
+          {step > STEP_MIN && <button onClick={prevStep} disabled={step <= 0}>Back</button>}
+          {step < STEP_MAX && <button onClick={nextStep} disabled={!isSubmitted} >Next</button>}
         </div>
       </div>
-      <div className={step === STEP_MIN ? 'nav-start nav-btns' : 'nav-btns'}>
-        {step > STEP_MIN && <button onClick={prevStep} disabled={step <= 0}>Back</button>}
-        {step < STEP_MAX && <button onClick={nextStep} disabled={!isSubmitted} >Next</button>}
-      </div>
-    </div>
-  </>
+    </>
   );
 }
 

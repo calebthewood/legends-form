@@ -1,39 +1,18 @@
 import { useState, ChangeEvent } from "react";
 import { SubmitBtn } from "./SubmitBtn";
+import { updateActivity } from "../db";
 
 interface IMultipleChoice {
-  field: string;
+  field: {
+    answers: string[];
+    question: string,
+    response: string | null;
+    solution: string;
+    type: string;
+  };
   updateMain: (p: string) => void;
 }
 
-interface IRadioItem {
-  name: string;
-  label: string;
-  value: string;
-}
-
-const options: IRadioItem[] = [
-  {
-    name: 'multiple-choice',
-    label: 'Option 1',
-    value: 'option-1'
-  },
-  {
-    name: 'multiple-choice',
-    label: 'Option 2',
-    value: 'option-2'
-  },
-  {
-    name: 'multiple-choice',
-    label: 'Option 3',
-    value: 'option-3'
-  },
-  {
-    name: 'multiple-choice',
-    label: 'Option 4',
-    value: 'option-4'
-  },
-];
 
 export function MultipleChoiceInput({ field, updateMain }: IMultipleChoice) {
 
@@ -42,10 +21,10 @@ export function MultipleChoiceInput({ field, updateMain }: IMultipleChoice) {
   const [success, setSuccess] = useState(false);
 
   /** Validate Input
-   * A token validation function. More could be added here based on requirements.
+   * Compares selected answer against solution.
    */
   function validateInput(value: string) {
-    return value.length > 0;
+    return value?.toLocaleLowerCase() === field.solution;
   }
 
   function handleSubmit() {
@@ -54,6 +33,8 @@ export function MultipleChoiceInput({ field, updateMain }: IMultipleChoice) {
     } else if (validateInput(selected)) {
       updateMain(selected);
       setSuccess(true)
+      const result = updateActivity({ column: 'question_3', key: 'response', value: selected })
+      console.log(result)
     } else {
       setError(true);
     }
@@ -66,21 +47,21 @@ export function MultipleChoiceInput({ field, updateMain }: IMultipleChoice) {
 
   return (
     <div className="form-item">
-      <label htmlFor="text-input">{field}</label>
+      <label htmlFor="text-input">{field.type}</label>
       <fieldset className={error ? 'input-error' : ''}>
-        <legend>Select an Answer:</legend>
+        <legend>{field.question}</legend>
 
-        {options.map((item, i) =>
-          <div key={`${item.name}-${i}`}>
+        {field.answers.map((item, i) =>
+          <div key={`${item}-${i}`}>
             <input
-              checked={selected === item.value}
+              checked={selected === item}
               className={error ? 'input-error' : ''}
               type="radio"
-              id={item.value}
-              name={item.value}
-              value={item.value}
+              id={item}
+              name={item}
+              value={item}
               onChange={handleChange} />
-            <label htmlFor={item.value}>{item.label}</label>
+            <label htmlFor={item}>{item}</label>
           </div>
         )}
 

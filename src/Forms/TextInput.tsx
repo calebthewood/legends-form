@@ -1,8 +1,14 @@
 import { useState } from 'react';
 import { SubmitBtn } from './SubmitBtn';
+import { updateActivity } from '../db';
 
 interface ITextInputProps {
-  field: string;
+  field: {
+    question: string;
+    response: null;
+    solution: string;
+    type: string;
+  };
   updateMain: (p: string) => void;
 }
 
@@ -24,6 +30,8 @@ export function TextInput({ field, updateMain }: ITextInputProps) {
     if (validateInput(text)) {
       updateMain(text);
       setSuccess(true);
+      const result = updateActivity({ column: 'question_1', key: 'response', value: text })
+      console.log(result)
     } else {
       setSuccess(false);
       setError(true);
@@ -37,8 +45,8 @@ export function TextInput({ field, updateMain }: ITextInputProps) {
 
   return (
     <div className='form-item'>
-      <label htmlFor='text-input'>{field}</label>
-      <p>Prompt, question about activity?</p>
+      <label htmlFor='text-input'>{field.type}</label>
+      <p>{field.question}</p>
       <input
         type='text'
         name='text-input'
