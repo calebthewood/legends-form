@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { SubmitBtn } from './SubmitBtn';
-import { updateActivity } from '../db';
+import { NavBtns } from './NavBtns';
+import { updateActivity } from '../Common/updateActivity';
 
 interface ITextInputProps {
   field: {
@@ -9,10 +9,12 @@ interface ITextInputProps {
     solution: string;
     type: string;
   };
-  updateMain: (p: string) => void;
+  prevStep: () => void;
+  nextStep: () => void;
+  step: number;
 }
 
-export function TextInput({ field, updateMain }: ITextInputProps) {
+export function TextInput({ field, step, prevStep, nextStep }: ITextInputProps) {
 
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
@@ -28,10 +30,8 @@ export function TextInput({ field, updateMain }: ITextInputProps) {
 
   function handleSubmit() {
     if (validateInput(text)) {
-      updateMain(text);
       setSuccess(true);
-      const result = updateActivity({ column: 'question_1', key: 'response', value: text })
-      console.log(result)
+      updateActivity('question_1', { ...field, response: text });
     } else {
       setSuccess(false);
       setError(true);
@@ -45,16 +45,19 @@ export function TextInput({ field, updateMain }: ITextInputProps) {
 
   return (
     <div className='form-item'>
-      <label htmlFor='text-input'>{field.type}</label>
-      <p>{field.question}</p>
-      <input
-        type='text'
-        name='text-input'
-        onChange={handleChange}
-        className={error ? 'input-error' : success ? 'input-success' : ''}
-        value={text}
-        placeholder={error ? 'Answer Needed' : 'Write Answer Here...'} />
-      <SubmitBtn handleSubmit={handleSubmit} success={success} />
+      <div className='form-body'>
+        <label className='form-label' htmlFor='text-input'>{field.type}</label>
+        <p>{field.question}</p>
+        <input
+          autoComplete="off"
+          type='text'
+          name='text-input'
+          onChange={handleChange}
+          className={error ? 'input-error' : success ? 'input-success' : ''}
+          value={text}
+          placeholder={error ? 'Answer Needed' : 'Write Answer Here...'} />
+      </div>
+      <NavBtns handleSubmit={handleSubmit} success={success} step={step} prevStep={prevStep} nextStep={nextStep} />
     </div>
   );
 }
