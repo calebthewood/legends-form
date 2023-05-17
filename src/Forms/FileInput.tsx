@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, useEffect } from "react";
-import { SubmitBtn } from "./SubmitBtn";
-import { updateActivity } from "../db";
+import { NavBtns } from "./NavBtns";
+import { updateActivity } from '../Common/updateActivity'
 
 
 interface IFileInputProps {
@@ -9,10 +9,12 @@ interface IFileInputProps {
     type: 'audio' | 'video';
     question: string;
   };
-  updateMain: (p: string | null) => void;
+  prevStep: () => void;
+  nextStep: () => void;
+  step: number;
 }
 
-export function FileInput({ field, updateMain }: IFileInputProps) {
+export function FileInput({ field, step, prevStep, nextStep }: IFileInputProps) {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -42,12 +44,7 @@ export function FileInput({ field, updateMain }: IFileInputProps) {
       setSuccess(false);
       setError(true);
     } else {
-      updateMain(file.name);
-      updateActivity({
-        column: field.type === 'audio' ? 'question_4' : 'question_5',
-        key: 'response',
-        value: file.name
-      });
+      updateActivity(field.type === 'audio' ? 'question_5' : 'question_4', { ...field, file_name: file.name });
       setSuccess(true);
     }
   }
@@ -61,16 +58,18 @@ export function FileInput({ field, updateMain }: IFileInputProps) {
 
   return (
     <div className="form-item">
-      <label htmlFor="file-input">{fileTypes[field.type].label}</label>
-      <p>{field.question}</p>
-      <input
-        type="file"
-        name="file-input"
-        // value={''}
-        className={error ? 'input-error' : success ? 'input-success' : ''}
-        accept={fileTypes[field.type].accepts}
-        onChange={handleChange} />
-      <SubmitBtn handleSubmit={handleSubmit} success={success} />
+      <div className='form-body'>
+        <label className='form-label' htmlFor="file-input">{fileTypes[field.type].label}</label>
+        <p>{field.question}</p>
+        <input
+          type="file"
+          name="file-input"
+          // value={''}
+          className={error ? 'input-error' : success ? 'input-success' : ''}
+          accept={fileTypes[field.type].accepts}
+          onChange={handleChange} />
+      </div>
+      <NavBtns handleSubmit={handleSubmit} success={success} step={step} prevStep={prevStep} nextStep={nextStep} />
     </div>
   );
 }
