@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { SubmitBtn } from "./SubmitBtn";
-import { updateActivity } from "../db";
+import { NavBtns } from "./NavBtns";
+import { updateActivity } from '../Common/updateActivity'
 
 interface ITextAreaInputProps {
   field: {
@@ -10,7 +10,9 @@ interface ITextAreaInputProps {
     type: string;
   };
   config?: ITextAreaConfig;
-  updateMain: (p: string) => void;
+  prevStep: () => void;
+  nextStep: () => void;
+  step: number;
 }
 
 interface ITextAreaConfig {
@@ -23,7 +25,7 @@ const defaultConfig = {
   cols: 33,
 };
 
-export function TextAreaInput({ field, updateMain, config = defaultConfig }: ITextAreaInputProps) {
+export function TextAreaInput({ field, config = defaultConfig, step, prevStep, nextStep }: ITextAreaInputProps) {
 
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
@@ -39,9 +41,8 @@ export function TextAreaInput({ field, updateMain, config = defaultConfig }: ITe
 
   function handleSubmit() {
     if (validateInput(text)) {
-      updateMain(text);
       setSuccess(true);
-      updateActivity({ column: 'question_2', key: 'response', value: text })
+      updateActivity('question_2', { ...field, response: text });
     } else {
       setSuccess(false);
       setError(true);
@@ -55,18 +56,21 @@ export function TextAreaInput({ field, updateMain, config = defaultConfig }: ITe
 
   return (
     <div className='form-item' >
-      <label htmlFor='text-area'>{field.type}</label>
-      <p>{field.question}</p>
-      <textarea
-        name='text-area'
-        onChange={handleChange}
-        rows={config.rows}
-        cols={config.cols}
-        className={error ? 'input-error' : success ? 'input-success' : ''}
-        value={text}
-        placeholder={error ? 'Answer Needed' : 'Write Answer Here...'}>
-      </textarea>
-      <SubmitBtn handleSubmit={handleSubmit} success={success} />
+      <div className='form-body'>
+        <label className='form-label' htmlFor='text-area'>{field.type}</label>
+        <p>{field.question}</p>
+        <textarea
+          autoComplete="off"
+          name='text-area'
+          onChange={handleChange}
+          rows={config.rows}
+          cols={config.cols}
+          className={error ? 'input-error' : success ? 'input-success' : ''}
+          value={text}
+          placeholder={error ? 'Answer Needed' : 'Write Answer Here...'}>
+        </textarea>
+      </div>
+      <NavBtns handleSubmit={handleSubmit} success={success} step={step} prevStep={prevStep} nextStep={nextStep} />
     </div>
   );
 }
