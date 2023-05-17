@@ -1,13 +1,13 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
 .form-container {
-  min-height: 460px;
-  width: 300px;
+  /* max-width: 380px; */
+  min-height: 400px;
+  margin: 1em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -18,29 +18,10 @@
   box-shadow: 4px 4px 13px #3a3a3a74;
 }
 
-.nav-btns {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.nav-btns>button {
-  justify-self: flex-end;
-  flex-grow: 0.4;
-}
-
-.nav-start {
-justify-content: flex-end;
-}
-
-.welcome-card {
+.form-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #484848;
-  margin-top: 30%;
+  justify-content: space-between;
 }
 
 .form-item {
@@ -48,9 +29,43 @@ justify-content: flex-end;
   display: flex;
   flex-direction: column;
   text-align: start;
+  justify-content: space-between;
+  height: 430px;
 }
 
-.form-item>label {
+.form-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.nav-btns> .back {
+  flex-grow: 0.4;
+}
+
+.nav-btns> .next {
+  flex-grow: 0.4;
+}
+
+.nav-start {
+  justify-content: flex-end;
+}
+
+.welcome-card {
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #484848;
+}
+
+.form-label {
   font-size: 2em;
   font-weight: bold;
   padding-bottom: 1em;
@@ -59,6 +74,15 @@ justify-content: flex-end;
 
 input[type=text] {
   padding: 7px;
+  margin-bottom: 1em;
+}
+
+textarea {
+  color-scheme: light;
+  margin-bottom: 1em;
+}
+
+input[type=file] {
   margin-bottom: 1em;
 }
 
@@ -76,6 +100,7 @@ input[type=text] {
   align-items: center;
   justify-content: center;
   padding: 2em 0;
+  margin-bottom: 1em;
 }
 
 input::file-selector-button {
@@ -97,10 +122,8 @@ input::file-selector-button {
   cursor: pointer;
 }
 
-.submit-btn {
-  justify-self: flex-end;
-  margin-top: 2em;
-  flex-grow: 1;
+fieldset {
+  margin-bottom: 1em;
 }
 
 .state-list {
@@ -109,6 +132,8 @@ input::file-selector-button {
 
 .confetti {
   align-self: center;
+  width: 0;
+  height: 0;
 }
 
 /* ##################### Animated Transitions Start  */
